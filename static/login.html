@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — NexTask</title>
+  <meta name="description" content="Sign in to NexTask to manage your tasks with role-based access control."/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="auth-page" id="loginPage">
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Left Visual Panel -->
+  <div class="auth-left">
+    <img src="assets/auth-side.png" alt="Abstract network visualization" class="auth-left-img"/>
+    <div class="auth-left-overlay"></div>
+    <div class="auth-left-content">
+      <div class="section-tag">Secure Access</div>
+      <h2>Your Tasks.<br/><span class="gradient-text">Your Control.</span></h2>
+      <p>Sign in with JWT-secured credentials and access your personalized task board instantly.</p>
+      <div class="auth-feature-list">
+        <div class="auth-feature-item">
+          <span class="icon">🔑</span>
+          <span>HS256 JWT Token with 60-min expiry</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="icon">🛡️</span>
+          <span>RBAC enforced on every API route</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="icon">⚡</span>
+          <span>Instant authentication via FastAPI</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="icon">🗄️</span>
+          <span>PostgreSQL-backed user sessions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Form Panel -->
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <div class="auth-form-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="10" height="10" rx="2" fill="url(#lg1)"/>
+          <rect x="16" y="2" width="10" height="10" rx="2" fill="url(#lg2)" opacity="0.7"/>
+          <rect x="2" y="16" width="10" height="10" rx="2" fill="url(#lg3)" opacity="0.7"/>
+          <rect x="16" y="16" width="10" height="10" rx="2" fill="url(#lg1)"/>
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+            <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+            <linearGradient id="lg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c084fc"/><stop offset="1" stop-color="#818cf8"/></linearGradient>
+          </defs>
+        </svg>
+        NexTask
+      </div>
+
+      <h1 class="auth-form-title">Hello! Welcome back 👋</h1>
+      <p class="auth-form-sub">Sign in to your account to continue.</p>
+
+      <!-- Alert box -->
+      <div class="alert alert-error" id="loginAlert" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="loginAlertMsg">Invalid email or password.</span>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email address</label>
+          <div class="form-input-wrap">
+            <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" autocomplete="email" required/>
+            <span class="form-input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <div class="form-input-wrap">
+            <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" autocomplete="current-password" required/>
+            <span class="form-input-icon" id="toggleLoginPwd" title="Toggle password visibility">
+              <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-footer-link">
+          <span class="form-remember">Credentials secured with PBKDF2-SHA256</span>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="form-submit" id="loginBtn">
+          <span>Sign In</span>
+        </button>
+      </form>
+
+      <div class="form-divider">or continue with</div>
+
+      <div style="display:flex;gap:12px;justify-content:center;margin-bottom:8px;">
+        <button class="action-btn" style="width:52px;height:44px;font-size:1.1rem;" title="Google (demo)">G</button>
+        <button class="action-btn" style="width:52px;height:44px;font-size:1.1rem;" title="Apple (demo)">⌘</button>
+        <button class="action-btn" style="width:52px;height:44px;font-size:1.1rem;" title="GitHub (demo)">◆</button>
+      </div>
+
+      <div class="auth-switch">
+        Don't have an account? <a href="/register">Create Account!</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

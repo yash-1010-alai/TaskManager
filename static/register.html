@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account — NexTask</title>
+  <meta name="description" content="Register a new NexTask account and start managing your team's tasks."/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="auth-page" id="registerPage">
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Left Visual -->
+  <div class="auth-left">
+    <img src="assets/auth-side.png" alt="Abstract tech visualization" class="auth-left-img"/>
+    <div class="auth-left-overlay"></div>
+    <div class="auth-left-content">
+      <div class="section-tag">Join the Platform</div>
+      <h2>Start Managing<br/><span class="gradient-text">Smarter Today.</span></h2>
+      <p>Create your account in seconds and get full access to role-based task management powered by FastAPI.</p>
+      <div class="auth-feature-list">
+        <div class="auth-feature-item">
+          <span class="icon">👤</span>
+          <span>Manager or Member — your choice</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="icon">🔐</span>
+          <span>Passwords hashed with PBKDF2-SHA256</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="icon">📋</span>
+          <span>Instant access to task board on sign-up</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="icon">🗄️</span>
+          <span>Data persisted in PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Form -->
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <div class="auth-form-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="10" height="10" rx="2" fill="url(#rg1)"/>
+          <rect x="16" y="2" width="10" height="10" rx="2" fill="url(#rg2)" opacity="0.7"/>
+          <rect x="2" y="16" width="10" height="10" rx="2" fill="url(#rg3)" opacity="0.7"/>
+          <rect x="16" y="16" width="10" height="10" rx="2" fill="url(#rg1)"/>
+          <defs>
+            <linearGradient id="rg1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+            <linearGradient id="rg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+            <linearGradient id="rg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c084fc"/><stop offset="1" stop-color="#818cf8"/></linearGradient>
+          </defs>
+        </svg>
+        NexTask
+      </div>
+
+      <h1 class="auth-form-title">Create Your Account ✨</h1>
+      <p class="auth-form-sub">Join NexTask and take control of your tasks.</p>
+
+      <div class="alert alert-error" id="registerAlert" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="registerAlertMsg">Something went wrong.</span>
+      </div>
+
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email address</label>
+          <div class="form-input-wrap">
+            <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" autocomplete="email" required/>
+            <span class="form-input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Password <span style="color:var(--text-muted);font-weight:400;">(min. 8 characters)</span></label>
+          <div class="form-input-wrap">
+            <input type="password" id="regPassword" class="form-input" placeholder="Create a strong password" autocomplete="new-password" required minlength="8"/>
+            <span class="form-input-icon" id="toggleRegPwd" title="Show/hide password">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </div>
+          <!-- Password strength bar -->
+          <div class="pwd-strength-wrap" style="margin-top:8px;">
+            <div style="display:flex;gap:4px;margin-bottom:4px;">
+              <div class="pwd-bar" id="pbar1" style="flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,0.08);transition:all 0.3s;"></div>
+              <div class="pwd-bar" id="pbar2" style="flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,0.08);transition:all 0.3s;"></div>
+              <div class="pwd-bar" id="pbar3" style="flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,0.08);transition:all 0.3s;"></div>
+              <div class="pwd-bar" id="pbar4" style="flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,0.08);transition:all 0.3s;"></div>
+            </div>
+            <span id="pwdStrengthLabel" style="font-size:0.7rem;color:var(--text-muted);"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regRole">Account Role</label>
+          <div style="position:relative;">
+            <select id="regRole" class="form-select">
+              <option value="member">👤 Member — manage my own tasks</option>
+              <option value="manager">👑 Manager — manage team &amp; assign tasks</option>
+            </select>
+            <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;">▾</span>
+          </div>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">You can change roles later via the API.</p>
+        </div>
+
+        <button type="submit" class="form-submit" id="registerBtn">
+          <span>Create Account</span>
+        </button>
+      </form>
+
+      <div class="auth-switch" style="margin-top:24px;">
+        Already have an account? <a href="/login">Sign In!</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
